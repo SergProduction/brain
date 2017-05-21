@@ -4,11 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prod": "webpack",
+    "dev": "webpack --watch",
+    "serv": "webpack-dev-server"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "d3": "^4.9.1"
+    "d3": "^4.9.1",
+    "webpack": "^2.5.1"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^2.4.5"
   }
 }

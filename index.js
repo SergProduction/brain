@@ -1,3 +1,5 @@
+const d3 = require('d3');
+
 let createMap = (x,y) => {
   let map = [];
   for (let ym=0; ym < y; ym++) {
@@ -139,11 +141,9 @@ setTimeout(() => {
 
 console.log(map)
 
-let Brain = (){
+let Brain = () => {
   let memmory = []
-  return () => {
-
-  }
+  return () => {}
 }
 
 let serg = Brain()
