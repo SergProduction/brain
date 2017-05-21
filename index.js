@@ -33,7 +33,7 @@ let createPlayer = (map) => {
 }
 
 
-let movePlayer = (coordPlayer, direct) => {
+let movePlayer = (direct) => {
   /*
   [7,8,9]
   [4, ,6]
@@ -47,34 +47,43 @@ let movePlayer = (coordPlayer, direct) => {
   map[coordPlayer.y][coordPlayer.x] = 0
   switch(direct){
     case 8:
-      map[coordPlayer.y-=1][coordPlayer.x] = 5
+      coordPlayer.y-=1
       break
     case 9:
-      map[coordPlayer.y-=1][coordPlayer.x+=1] = 5
+      coordPlayer.y-=1
+      coordPlayer.x+=1
       break
     case 6:
-      map[coordPlayer.y][coordPlayer.x+=1] = 5
+      coordPlayer.x+=1
       break
     case 3:
-      map[coordPlayer.y+=1][coordPlayer.x+=1] = 5
+      coordPlayer.y+=1
+      coordPlayer.x+=1
       break
     case 2:
-      map[coordPlayer.y+=1][coordPlayer.x] = 5
+      coordPlayer.y+=1
       break
     case 1:
-      map[coordPlayer.y+=1][coordPlayer.x-=1] = 5
+      coordPlayer.y+=1
+      coordPlayer.x-=1
       break
     case 4:
-      map[coordPlayer.y][coordPlayer.x-=1] = 5
+      coordPlayer.x-=1
       break
     case 7:
-      map[coordPlayer.y-=1][coordPlayer.x-=1] = 5
+      coordPlayer.y-=1
+      coordPlayer.x-=1
       break
     default:
       console.log('tryPlayer')
       break
   }
-  return coordPlayer
+  if( map[coordPlayer.y][coordPlayer.x] == 1 ){
+    gameOver()
+  }else{
+    map[coordPlayer.y][coordPlayer.x] = 5
+  }
+  //return coordPlayer
 }
 
 
@@ -121,6 +130,15 @@ let createScen = (map, size) => {
   }
 }
 
+let gameOver = () => {
+  d3.select('body')
+    .insert('h1', ':first-child')
+    .text('gameOver');
+
+  clearInterval(play)
+}
+
+
 let map = createMap(20,20)
 
 createCommet(map)(30)
@@ -129,17 +147,36 @@ coordPlayer = createPlayer(map)
 
 let render = createScen(map, 25)
 
-const play = setInterval(() => {
-  coordPlayer = movePlayer(coordPlayer)
-  render()
-  console.log('tic')
-}, 1000)
+let play;
+
+let start = () => {
+  d3.select('h1').text('');
+  
+  play = setInterval(() => {
+    movePlayer()
+    render()
+    console.log('tic')
+  }, 1000)
+}
 
 setTimeout(() => {
   clearInterval(play)
 },30*1000)
 
+d3.select('body')
+  .append('button')
+  .text('start')
+  .on('click', start)
+
+d3.select('body')
+  .append('button')
+  .text('stop')
+  .on('click', ()=> clearInterval(play) )
+
 console.log(map)
+
+
+
 
 let Brain = () => {
   let memmory = []

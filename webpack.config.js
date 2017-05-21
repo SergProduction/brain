@@ -9,7 +9,7 @@ module.exports = {
     publicPath: "/public/",
     filename: "[name].js"
   },
-  devtool: "eval-source-map",
+  devtool: "eval",
   devServer: {
     contentBase: path.join(__dirname, "public"),
     compress: true,
