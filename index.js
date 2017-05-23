@@ -16,8 +16,8 @@ let createCommet = (map) => {
   let xLen = map[0].length
   return (quantity) => {
     for(let i=0; i<quantity; i++){
-      let x = Math.floor( Math.random() * xLen)
-      let y = Math.floor( Math.random() * yLen)
+      let x = Math.round( Math.random() * xLen)
+      let y = Math.round( Math.random() * yLen)
       map[y][x] = 1
     }
   }
@@ -26,8 +26,8 @@ let createCommet = (map) => {
 let createPlayer = (map) => {
   let yLen = map.length
   let xLen = map[0].length
-  let x = Math.floor( Math.random() * xLen)
-  let y = Math.floor( Math.random() * yLen)
+  let x = Math.round( Math.random() * xLen)
+  let y = Math.round( Math.random() * yLen)
   map[y][x] = 5
   return {x,y}
 }
@@ -40,7 +40,7 @@ let movePlayer = (direct) => {
   [1,2,3]
   */
   if(!direct){
-    direct = Math.floor( Math.random() * 9 )
+    direct = Math.round( Math.random() * 9 )
     direct = direct == 5 || direct == 0 ? 9 : direct
   }
 
@@ -84,6 +84,15 @@ let movePlayer = (direct) => {
     map[coordPlayer.y][coordPlayer.x] = 5
   }
   //return coordPlayer
+}
+
+function showRadiusMap(r) {
+  if(!r) r = 2;
+  let newMap = map.slice(coordPlayer.y-r, coordPlayer.y+r+1)
+  for(let y=0; y<=r*2; y++){
+    newMap[y] = newMap[y].slice(coordPlayer.x-r, coordPlayer.x+r+1)
+  }
+  return newMap
 }
 
 
@@ -130,6 +139,8 @@ let createScen = (map, size) => {
   }
 }
 
+
+
 let gameOver = () => {
   d3.select('body')
     .insert('h1', ':first-child')
@@ -139,11 +150,14 @@ let gameOver = () => {
 }
 
 
+
 let map = createMap(20,20)
 
 createCommet(map)(30)
 
 coordPlayer = createPlayer(map)
+
+let view = showRadiusMap(3)
 
 let render = createScen(map, 25)
 
@@ -180,8 +194,22 @@ console.log(map)
 
 let Brain = () => {
   let memmory = []
-  return () => {}
+  
+  let input = () => {
+    //arguments
+  }
+  let action = () => {
+    //arguments
+  }
+  return {
+    input,
+    action
+  }
 }
 
-let serg = Brain()
+let jarvis = Brain()
+
+
+jarvis.input( showRadiusMap(3) )
+jarvis.action(movePlayer, render)
 
