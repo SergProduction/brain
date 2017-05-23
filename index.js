@@ -1,4 +1,8 @@
 const d3 = require('d3');
+require('virtual-console')({
+  inside:true,
+  url: 'c0'
+})
 
 let createMap = (x,y) => {
   let map = [];
